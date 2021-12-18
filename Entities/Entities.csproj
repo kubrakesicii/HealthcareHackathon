@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Concrete\" />
+    <None Remove="DTOs\" />
+    <None Remove="DTOs\User\" />
+    <None Remove="DTOs\Document\" />
+    <None Remove="DTOs\Donation\" />
+    <None Remove="DTOs\Filter\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Concrete\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="DTOs\User\" />
+    <Folder Include="DTOs\Document\" />
+    <Folder Include="DTOs\Donation\" />
+    <Folder Include="DTOs\Filter\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+</Project>

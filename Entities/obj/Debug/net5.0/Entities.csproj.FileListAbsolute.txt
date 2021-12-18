@@ -1,0 +1,15 @@
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/bin/Debug/net5.0/Entities.deps.json
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/bin/Debug/net5.0/Entities.dll
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/bin/Debug/net5.0/ref/Entities.dll
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/bin/Debug/net5.0/Entities.pdb
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/bin/Debug/net5.0/Core.dll
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/bin/Debug/net5.0/Core.pdb
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/Entities.csproj.AssemblyReference.cache
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/Entities.GeneratedMSBuildEditorConfig.editorconfig
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/Entities.AssemblyInfoInputs.cache
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/Entities.AssemblyInfo.cs
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/Entities.csproj.CoreCompileInputs.cache
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/Entities.csproj.CopyComplete
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/Entities.dll
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/ref/Entities.dll
+/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/Debug/net5.0/Entities.pdb

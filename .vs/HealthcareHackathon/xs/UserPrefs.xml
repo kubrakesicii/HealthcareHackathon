@@ -1,0 +1,56 @@
+﻿<Properties StartupConfiguration="{9A8ACE66-719E-42B5-A5B5-292807C2C34B}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="API/Controllers/DonationsController.cs">
+    <Files>
+      <File FileName="Business/Abstract/IDonationService.cs" Line="1" Column="1" />
+      <File FileName="Business/Concrete/DonationService.cs" />
+      <File FileName="API/Controllers/UsersController.cs" />
+      <File FileName="API/Controllers/DonationsController.cs" Line="5" Column="3" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="HealthcareHackathon" expanded="True">
+            <Node name="API" expanded="True">
+              <Node name="Controllers" expanded="True" />
+            </Node>
+            <Node name="Business" expanded="True">
+              <Node name="Abstract" expanded="True">
+                <Node name="IDonationService.cs" selected="True" />
+              </Node>
+              <Node name="Concrete" expanded="True" />
+            </Node>
+            <Node name="Core" expanded="True">
+              <Node name="Enums" expanded="True" />
+              <Node name="Results" expanded="True" />
+              <Node name="Token" expanded="True" />
+            </Node>
+            <Node name="DataAccess" expanded="True">
+              <Node name="Abstract" expanded="True" />
+              <Node name="Concrete" expanded="True" />
+              <Node name="Contexts" expanded="True" />
+              <Node name="Repositories" expanded="True" />
+            </Node>
+            <Node name="Entities" expanded="True">
+              <Node name="Concrete" expanded="True" />
+              <Node name="DTOs" expanded="True">
+                <Node name="Document" expanded="True" />
+                <Node name="Donation" expanded="True" />
+                <Node name="Filter" expanded="True" />
+                <Node name="User" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/eralpmobile/Desktop/HealthcareHackathon/DataAccess/Concrete/UserRepository.cs" relfile="DataAccess/Concrete/UserRepository.cs" line="52" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
