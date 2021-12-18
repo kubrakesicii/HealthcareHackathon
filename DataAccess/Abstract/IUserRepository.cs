@@ -10,9 +10,12 @@ namespace DataAccess.Abstract
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        Task<GetUserDto> RegisterUser(InsertUserDto insertUserDto);
-        Task<GetLoginDto> Login(LoginDto loginDto);
-        Task<GetUserDetailDto> GetUserDetail(int id);
-        Task<List<GetUserDetailDto>> GetAllUsersByFilter(FilterUserDto filterUser);
+        Task<DataResult<GetUserDto>> RegisterUser(InsertUserDto insertUserDto);
+        Task<DataResult<GetLoginDto>> Login(LoginDto loginDto);
+        Task<DataResult<GetUserDetailDto>> GetUserDetail(int id);
+        Task<DataResult<List<GetUserDto>>> GetAllUsers();
+        Task<DataResult<List<GetUserDetailDto>>> GetAllUsersByFilter(FilterUserDto filterUser);
+        Task<Result> UpdateUser(int id, UpdateUserDto updateUserDto);
+
     }
 }

@@ -5,6 +5,7 @@ using Core;
 using Core.Results;
 using Core.Token;
 using DataAccess.Abstract;
+using DataAccess.UnitOfWork;
 using Entities.DTOs.User;
 using Microsoft.AspNetCore.Http;
 
@@ -12,45 +13,59 @@ namespace Business.Concrete
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IDocumentRepository _documentRepo;
-        private readonly IDonationRepository _donationRepo;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ITokenService _tokenService;
 
 
-        public UserService(IUserRepository userRepo, IHttpContextAccessor httpContextAccessor, IDocumentRepository documentRepo,
-            IDonationRepository donationRepo)
+        public UserService(IUnitOfWork unitOfWork, ITokenService tokenService)
         {
-            _userRepo = userRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _documentRepo = documentRepo;
-            _donationRepo = donationRepo;
+            _unitOfWork = unitOfWork;
+            _tokenService = tokenService;
+
         }
 
         public async Task<Result> RegisterUser(InsertUserDto insertUserDto)
         {
             // Kullanıcı eklendi ve ona ait raporlar eklendi
-            var user = await _userRepo.RegisterUser(insertUserDto);
-            await _documentRepo.InsertDocuments(user.Id);
+            var user = await _unitOfWork.Users.RegisterUser(insertUserDto);
+            await _unitOfWork.Documents.InsertDocuments(user.Data.Id);
 
             return new Result(true);
         }
 
-        public async Task<GetLoginDto> Login(LoginDto loginDto)
+        public async Task<DataResult<GetLoginDto>> Login(LoginDto loginDto)
         {
-            return await _userRepo.Login(loginDto);         
+            var user = await _unitOfWork.Users.Login(loginDto);
+            if (user.Data != null)
+                user.Data.Token = _tokenService.CreateToken(user.Data.Id, $"{user.Data.Firstname} {user.Data.Lastname}", user.Data.RoleId);
+            return user;
         }
 
-        public async Task<GetUserDetailDto> GetUserDetail(int id)
+        public async Task<DataResult<GetUserDetailDto>> GetUserDetail(int id)
         {
-            var user = await _userRepo.GetUserDetail(id);
-            user.Documents = await _documentRepo.GetUserDocuments(id);
+            var user = await _unitOfWork.Users.GetUserDetail(id);
+            user.Data.Documents = (await _unitOfWork.Documents.GetUserDocuments(id)).Data;
 
             // Donor icin bagılayabilecegi seyler - donee icin bagıs almak istedigi seyler
-            user.Donations = await _donationRepo.GetUserOngoingDonations(id);
-            user.DontionHistory = await _donationRepo.GetDonationHistory(id);
+            user.Data.Donations = (await _unitOfWork.OngoingDonations.GetUserDonations(id)).Data;
+            //user.Data.DontionHistory = (await _unitOfWork.Donations.GetDonationHistory(id)).Data;
 
             return user;
+        }
+
+        public async Task<DataResult<List<GetUserDto>>> GetAllUsers()
+        {
+            return await _unitOfWork.Users.GetAllUsers();
+        }
+
+        public async Task<DataResult<List<GetUserDetailDto>>> GetAllUsersByFilter(FilterUserDto filterUser)
+        {
+            return await _unitOfWork.Users.GetAllUsersByFilter(filterUser);
+        }
+
+        public async Task<Result> UpdateUser(int id, UpdateUserDto updateUserDto)
+        {
+            return await _unitOfWork.Users.UpdateUser(id, updateUserDto);
         }
     }
 }

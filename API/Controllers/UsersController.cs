@@ -25,22 +25,40 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromForm] InsertUserDto insertUserDto)
         {
             return Ok(await _userService.RegisterUser(insertUserDto));
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             return Ok(await _userService.Login(loginDto));
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserDetail([FromRoute, Required] int id)
+        public async Task<IActionResult> GetDetail([FromRoute, Required] int id)
         {
             return Ok(await _userService.GetUserDetail(id));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _userService.GetAllUsers());
+        }
+
+        [HttpPost("ByFilter")]
+        public async Task<IActionResult> GetByFilter([FromBody] FilterUserDto filterUser)
+        {
+            return Ok(await _userService.GetAllUsersByFilter(filterUser));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute, Required] int id, [FromForm] UpdateUserDto user)
+        {
+            return Ok(await _userService.UpdateUser(id, user));
         }
     }
 }

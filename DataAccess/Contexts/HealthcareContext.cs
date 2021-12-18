@@ -1,4 +1,5 @@
 ﻿using System;
+using DataAccess.Configurations;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace DataAccess.Contexts
             }
 
             public DbSet<User> Users { get; set; }
-            public DbSet<Donation> Transplants { get; set; }
+            public DbSet<Donation> Donations { get; set; }
             public DbSet<UserCompletedDonation> UserCompletedDonations { get; set; }
             public DbSet<UserOngoingDonation> UserOngoingDonations { get; set; }
             public DbSet<Document> Documents { get; set; }
@@ -32,7 +33,15 @@ namespace DataAccess.Contexts
             protected override void OnConfiguring(DbContextOptionsBuilder options)
             {
                 if (!options.IsConfigured)
-                    options.UseSqlServer("Server=localhost,2000; Database=HealthcareDb; User=root; Password = ");
+                    options.UseSqlServer("Server=127.0.0.1,1433; Database=HealthcareDb; User=sa; Password = AyremX.123", x => x.MigrationsAssembly("DataAccess"));
             }
-        }
+
+            protected override void OnModelCreating(ModelBuilder modelBuilder)
+            {
+                modelBuilder.ApplyConfiguration(new UserConfig());
+                modelBuilder.ApplyConfiguration(new DonationConfig());
+                modelBuilder.ApplyConfiguration(new DocumentConfig());
+                modelBuilder.ApplyConfiguration(new BadgetConfig());
+            }
+    }
 }

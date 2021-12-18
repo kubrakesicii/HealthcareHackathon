@@ -20,6 +20,12 @@ namespace DataAccess.Repositories
 
         public virtual DbSet<T> Entity => _entity ??= _context.Set<T>();
 
+        public GenericRepository(HealthcareContext context)
+        {
+            _context = context;
+            _entity = _context.Set<T>();
+        }
+
         public IQueryable<T> Table => Entity;
 
         public IQueryable<T> TableNoTracking => Entity.AsNoTracking();

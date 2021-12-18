@@ -22,12 +22,10 @@ namespace DataAccess.Concrete
     {
         //Generic Repoyu user ile extend edersem yazılı metotlar direk bu sınıf uzerinden kullanılabilir
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ITokenService _tokenService;
 
-        public UserRepository(IHttpContextAccessor httpContextAccessor, ITokenService tokenService)
+        public UserRepository(HealthcareContext context,IHttpContextAccessor httpContextAccessor) : base(context)
         {
             _httpContextAccessor = httpContextAccessor;
-            _tokenService = tokenService;
         }
 
         //Helper methods
@@ -48,7 +46,7 @@ namespace DataAccess.Concrete
         }
 
 
-        public async Task<GetUserDto> RegisterUser(InsertUserDto insertUserDto)
+        public async Task<DataResult<GetUserDto>> RegisterUser(InsertUserDto insertUserDto)
         {
             var imagePath = _httpContextAccessor.HttpContext.Items["ImagePath"].ToString();
 
@@ -72,7 +70,7 @@ namespace DataAccess.Concrete
 
             await InsertAsync(user);
 
-            return new GetUserDto
+            return new DataResult<GetUserDto>(new GetUserDto
             {
                 Id = user.Id,
                 Firstname = user.Firstname,
@@ -87,11 +85,11 @@ namespace DataAccess.Concrete
                 BloodType = user.BloodType,
                 RoleId = user.RoleId,
                 Address = user.Address,
-            };
+            }, true);
         }
 
 
-        public async Task<GetLoginDto> Login(LoginDto loginDto)
+        public async Task<DataResult<GetLoginDto>> Login(LoginDto loginDto)
         {
             var user = await GetAsync(x => x.Username == loginDto.Username);
             if(user == null)
@@ -105,35 +103,29 @@ namespace DataAccess.Concrete
                 throw new BadRequestException("WRONG PASSWORD");
             }
 
-            var token = _tokenService.CreateToken(user.Id, $"{user.Firstname} {user.Lastname}", user.RoleId);
-
-            return new GetLoginDto
+            return new DataResult<GetLoginDto>(new GetLoginDto
             {
-                User = new GetUserDto
-                {
-                    Id = user.Id,
-                    Firstname = user.Firstname,
-                    Lastname = user.Lastname,
-                    Email = user.Email,
-                    Username = user.Username,
-                    ImagePath = user.ImagePath,
-                    Age = user.Age,
-                    Height = user.Height,
-                    Weight = user.Weight,
-                    Description = user.Description,
-                    BloodType = user.BloodType,
-                    RoleId = user.RoleId,
-                    Address = user.Address,
-                    DistrictId = user.DistrictId
-                },
-                Token = token
-            };
+                Id = user.Id,
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                Email = user.Email,
+                Username = user.Username,
+                ImagePath = user.ImagePath,
+                Age = user.Age,
+                Height = user.Height,
+                Weight = user.Weight,
+                Description = user.Description,
+                BloodType = user.BloodType,
+                RoleId = user.RoleId,
+                Address = user.Address,
+                DistrictId = user.DistrictId
+            }, true);
         }
 
-        public async Task<GetUserDetailDto> GetUserDetail(int id)
+        public async Task<DataResult<GetUserDetailDto>> GetUserDetail(int id)
         {
             var user = await GetAsync(x => x.Id == id);
-            return new GetUserDetailDto
+            return new DataResult<GetUserDetailDto>(new GetUserDetailDto
             {
                 Id = user.Id,
                 Firstname = user.Firstname,
@@ -150,10 +142,10 @@ namespace DataAccess.Concrete
                 Address = user.Address,
                 District = _context.Districts.Where(x => x.Id == user.DistrictId).Select(x => x.Name).FirstOrDefault(),
                 City = _context.Districts.Where(x => x.Id == user.DistrictId).Include(x => x.City).Select(x => x.City.Name).FirstOrDefault()
-            };
+            }, true);
         }
 
-        public async Task<List<GetUserDetailDto>> GetAllUsersByFilter(FilterUserDto filterUser)
+        public async Task<DataResult<List<GetUserDetailDto>>> GetAllUsersByFilter(FilterUserDto filterUser)
         {
             //Tablo geldikten sonra searchkey verip arama yapabilir.
 
@@ -200,7 +192,7 @@ namespace DataAccess.Concrete
 
                     foreach (var d in searchDonations)
                     {
-                        donationCond = donationCond.Or(x => x.DonationId == d);
+                        //donationCond = donationCond.Or(x => x.DonationId == d);
                     }
 
                     var donations = await _context.UserOngoingDonations.Where(donationCond).Select(x => x.UserId).Distinct().ToListAsync();
@@ -216,11 +208,58 @@ namespace DataAccess.Concrete
             List<GetUserDetailDto> filteredUsers = new List<GetUserDetailDto>();
             foreach (var user in filteredIds)
             {
-                filteredUsers.Add(await GetUserDetail(user));
+                filteredUsers.Add((await GetUserDetail(user)).Data);
             }
 
 
-            return filteredUsers;
+            return new DataResult<List<GetUserDetailDto>>(filteredUsers, true);
+        }
+
+        public async Task<DataResult<List<GetUserDto>>> GetAllUsers()
+        {
+            return new DataResult<List<GetUserDto>>(await _context.Users.Where(x => x.IsActive == 1).Select(x => new GetUserDto {
+                Id = x.Id,
+                Firstname = x.Firstname,
+                Lastname = x.Lastname,
+                Email = x.Email,
+                Username = x.Username,
+                ImagePath = x.ImagePath,
+                Age = x.Age,
+                Height = x.Height,
+                Weight = x.Weight,
+                Description = x.Description,
+                BloodType = x.BloodType,
+                RoleId = x.RoleId,
+                Address = x.Address,
+            }).ToListAsync(), true);
+        }
+
+        public async Task<Result> UpdateUser(int id, UpdateUserDto updateUserDto)
+        {
+            var imagePath = _httpContextAccessor.HttpContext.Items["ImagePath"].ToString();
+
+            var user = await GetAsync(x => x.Id == id);
+
+            if (user == null)
+            {
+                return new ErrorDataResult<GetUserDto>("USER NOTFOUND");
+            }
+
+            user.Firstname = updateUserDto.Firstname != null ? updateUserDto.Firstname : user.Firstname;
+            user.Lastname = updateUserDto.Lastname != null ? updateUserDto.Lastname : user.Lastname;
+            user.Email = updateUserDto.Email != null ? updateUserDto.Email : user.Email;
+            user.Address = updateUserDto.Address != null ? updateUserDto.Address : user.Address;
+            user.Age = updateUserDto.Age != 0 ? updateUserDto.Age : user.Age;
+            user.Weight = updateUserDto.Weight != 0 ? updateUserDto.Weight : user.Weight;
+            user.Height = updateUserDto.Height != 0 ? updateUserDto.Height : user.Height;
+            user.Description = updateUserDto.Description != null ? updateUserDto.Description : user.Description;
+            user.BloodType = updateUserDto.BloodType != 0 ? updateUserDto.BloodType : user.BloodType;
+            user.DistrictId = updateUserDto.DistrictId != 0 ? updateUserDto.DistrictId : user.DistrictId;
+            user.Password = updateUserDto.Password != null ? CryptoPassword(updateUserDto.Password) : user.Password;
+
+            await UpdateAsync(user);
+
+            return new Result(true);
         }
     }
 }

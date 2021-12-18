@@ -14,10 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Concrete\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="DTOs\User\" />
     <Folder Include="DTOs\Document\" />
-    <Folder Include="DTOs\Donation\" />
     <Folder Include="DTOs\Filter\" />
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Token
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         private readonly JwtOption _jwtOptions;
         private readonly IHttpContextAccessor _httpContextAccessor;

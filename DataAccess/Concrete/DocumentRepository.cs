@@ -17,18 +17,27 @@ namespace DataAccess.Concrete
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DocumentRepository(IHttpContextAccessor httpContextAccessor)
+        public DocumentRepository(HealthcareContext context, IHttpContextAccessor httpContextAccessor) : base(context)
         {
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<List<GetDocumentDto>> GetUserDocuments(int userId)
+        public async Task<Result> DeleteDocument(int id)
         {
-            return await _context.Documents.Where(x => x.UserId == userId).Select(x => new GetDocumentDto
+            var document = await GetAsync(x => x.Id == id);
+            document.IsActive = 0;
+            await UpdateAsync(document);
+
+            return new Result(true);
+        }
+
+        public async Task<DataResult<List<GetDocumentDto>>> GetUserDocuments(int userId)
+        {
+            return new DataResult<List<GetDocumentDto>>(await _context.Documents.Where(x => x.UserId == userId).Select(x => new GetDocumentDto
             {
                 Id = x.Id,
                 Path = x.Path
-            }).ToListAsync();
+            }).ToListAsync(), true);
         }
 
         public async Task<Result> InsertDocuments(int userId)

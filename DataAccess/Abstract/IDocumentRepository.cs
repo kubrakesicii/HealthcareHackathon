@@ -11,6 +11,7 @@ namespace DataAccess.Abstract
     public interface IDocumentRepository : IGenericRepository<Document>
     {
         Task<Result> InsertDocuments(int userId);
-        Task<List<GetDocumentDto>> GetUserDocuments(int userId);
+        Task<DataResult<List<GetDocumentDto>>> GetUserDocuments(int userId);
+        Task<Result> DeleteDocument(int id);
     }
 }

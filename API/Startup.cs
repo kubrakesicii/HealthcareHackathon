@@ -1,18 +1,25 @@
 ﻿using API.Middlewares;
 using Business.Abstract;
 using Business.Concrete;
+using Core.Token;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using DataAccess.Contexts;
 using DataAccess.Repositories;
+using DataAccess.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
+using System.Text;
 
 namespace API
 {
@@ -63,13 +70,48 @@ namespace API
 
             //Db context
             services.AddDbContext<HealthcareContext>(options =>
-                options.UseSqlServer("Server=localhost,2000; Database=HealthcareDb; User=root; Password = ", x => x.MigrationsAssembly("DataAccess")));
+                options.UseSqlServer("Server=127.0.0.1,1433; Database=HealthcareDb; User=sa; Password = AyremX.123", x => x.MigrationsAssembly("DataAccess")));
+
+
+            //JWT IMP
+            var jwtOptions = new JwtOption
+            {
+                Issuer = "healthcare.net",
+                Audience = "healthcare.net",
+                SecurityKey = "healthcarehackathon2021!",
+                AccessTokenExpiration = 60 * 24 * 7,
+                RefreshTokenExpiration = 60 * 24 * 10
+            };
+            services.AddSingleton(jwtOptions);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
 
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDocumentService, DocumentService>();
+            //services.AddScoped<IDonationService, DonationService>();
 
 
         }

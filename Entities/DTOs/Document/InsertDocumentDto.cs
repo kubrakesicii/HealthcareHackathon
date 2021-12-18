@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace Entities.DTOs.Document
 {
     public class InsertDocumentDto
     {
-        public List<string> DocumentPaths { get; set; }
+        public List<IFormFile> Documents{ get; set; }
     }
 
 }

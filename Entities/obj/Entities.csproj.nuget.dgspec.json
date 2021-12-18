@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/Entities.csproj": {}
+    "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Entities\\Entities.csproj": {}
   },
   "projects": {
-    "/Users/eralpmobile/Desktop/HealthcareHackathon/Core/Core.csproj": {
+    "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/eralpmobile/Desktop/HealthcareHackathon/Core/Core.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "/Users/eralpmobile/Desktop/HealthcareHackathon/Core/Core.csproj",
-        "packagesPath": "/Users/eralpmobile/.nuget/packages/",
-        "outputPath": "/Users/eralpmobile/Desktop/HealthcareHackathon/Core/obj/",
+        "projectPath": "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/eralpmobile/.config/NuGet/NuGet.Config"
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -62,34 +64,36 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/Entities.csproj": {
+    "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/Entities.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/Entities.csproj",
-        "packagesPath": "/Users/eralpmobile/.nuget/packages/",
-        "outputPath": "/Users/eralpmobile/Desktop/HealthcareHackathon/Entities/obj/",
+        "projectPath": "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/eralpmobile/.config/NuGet/NuGet.Config"
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "/Users/eralpmobile/Desktop/HealthcareHackathon/Core/Core.csproj": {
-                "projectPath": "/Users/eralpmobile/Desktop/HealthcareHackathon/Core/Core.csproj"
+              "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\admin\\Desktop\\HealthcareHackathon\\Core\\Core.csproj"
               }
             }
           }
@@ -118,7 +122,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
