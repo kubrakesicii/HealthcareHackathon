@@ -67,8 +67,6 @@ namespace API.Middlewares
 
                 }
             }
-
-            await _next(httpContext);
         }
     }
     

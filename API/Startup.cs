@@ -35,8 +35,13 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddMvc();
+            // CORS
+            services.AddCors(options => options.AddDefaultPolicy(builder =>
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
+            );
+
 
             //SWAGGER
             services.AddSwaggerGen(c =>
@@ -44,7 +49,7 @@ namespace API
 
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "YatBu API",
+                    Title = "Healthcare API",
                     Version = "v1",
                     Description = ".NET Core 6.0.100"
                 });
@@ -72,7 +77,7 @@ namespace API
             services.AddDbContext<HealthcareContext>(options =>
                 options.UseSqlServer("Server=127.0.0.1,1433; Database=HealthcareDb; User=sa; Password = AyremX.123", x => x.MigrationsAssembly("DataAccess")));
 
-
+            
             //JWT IMP
             var jwtOptions = new JwtOption
             {
@@ -111,7 +116,7 @@ namespace API
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDocumentService, DocumentService>();
-            //services.AddScoped<IDonationService, DonationService>();
+            services.AddScoped<IUserOngoingDonationService, UserOngoingDonationService>();
 
 
         }
@@ -123,7 +128,7 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            //SWAGGER
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -131,11 +136,17 @@ namespace API
                 c.DefaultModelsExpandDepth(-1);
                 c.DocExpansion(DocExpansion.None);
             });
-        
+
+            //CORS
+            app.UseCors();
 
             app.UseRouting();
+            app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseHttpsRedirection();
+
 
             // ERROR MID
             app.UseErrorHandlerMiddleware();

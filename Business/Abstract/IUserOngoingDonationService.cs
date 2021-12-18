@@ -12,7 +12,7 @@ namespace Business.Abstract
     public interface IUserOngoingDonationService
     {
         Task<DataResult<List<GetDonationDto>>> GetUserDonations(int userId);
-        Task<Result> InsertUserDonation(UserOngoingDonation ongoingDonation);
+        Task<Result> InsertUserDonation(OngoingDonationDto ongoingDonation);
         Task<Result> DeleteUserDonation(int id);
     }
 }

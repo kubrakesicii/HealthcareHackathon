@@ -14,12 +14,10 @@ namespace Business.Concrete
     public class DocumentService : IDocumentService
     {
         public IUnitOfWork _unitOfWork;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DocumentService(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+        public DocumentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Result> InsertDocuments(int userId)

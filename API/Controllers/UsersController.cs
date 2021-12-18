@@ -32,10 +32,12 @@ namespace API.Controllers
         }
 
         [HttpPost("Login")]
+        [Produces("application/json")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             return Ok(await _userService.Login(loginDto));
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetail([FromRoute, Required] int id)

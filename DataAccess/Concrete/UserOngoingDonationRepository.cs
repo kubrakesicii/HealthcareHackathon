@@ -43,5 +43,14 @@ namespace DataAccess.Concrete
 
             return new Result(true);
         }
+
+        public async Task<Result> InsertUserDonation(OngoingDonationDto ongoingdonation)
+        {
+            return await InsertAsync(new UserOngoingDonation
+            {
+                UserId = ongoingdonation.UserId,
+                DonationId = ongoingdonation.DonationId
+            });
+        }
     }
 }

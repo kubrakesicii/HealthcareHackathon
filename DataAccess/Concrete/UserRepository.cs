@@ -94,13 +94,14 @@ namespace DataAccess.Concrete
             var user = await GetAsync(x => x.Username == loginDto.Username);
             if(user == null)
             {
-                throw new NotFoundException("USER NOT FOUND");
+                return new ErrorDataResult<GetLoginDto>("USER NOT FOUND");
             }
 
             var verify = VerifyPassword(loginDto.Password, user.Password);
             if (!verify)
             {
-                throw new BadRequestException("WRONG PASSWORD");
+                return new ErrorDataResult<GetLoginDto>("WRONG PASSWORD");
+
             }
 
             return new DataResult<GetLoginDto>(new GetLoginDto

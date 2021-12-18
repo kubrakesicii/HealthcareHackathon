@@ -6,9 +6,11 @@ namespace Entities.Concrete
         public int Id { get; set; }
 
         public int DonorId { get; set; }
+
         public User Donor { get; set; }
 
         public int DoneeId { get; set; }
+
         public User Donee { get; set; }
 
         public int DonationId { get; set; }

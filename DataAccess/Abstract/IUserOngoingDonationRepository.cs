@@ -12,6 +12,7 @@ namespace DataAccess.Abstract
 {
     public interface IUserOngoingDonationRepository : IGenericRepository<UserOngoingDonation>
     {
+        Task<Result> InsertUserDonation(OngoingDonationDto ongoingdonation);
         Task<DataResult<List<GetDonationDto>>> GetUserDonations(int userId);
         Task<Result> DeleteUserDonation(int id);
     }

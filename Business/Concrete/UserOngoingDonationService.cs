@@ -30,9 +30,9 @@ namespace Business.Concrete
             return await _unitOfWork.OngoingDonations.GetUserDonations(userId);
         }
 
-        public async Task<Result> InsertUserDonation(UserOngoingDonation ongoingDonation)
+        public async Task<Result> InsertUserDonation(OngoingDonationDto ongoingDonation)
         {
-            return await _unitOfWork.OngoingDonations.InsertAsync(ongoingDonation);
+            return await _unitOfWork.OngoingDonations.InsertUserDonation(ongoingDonation);
         }
     }
 }

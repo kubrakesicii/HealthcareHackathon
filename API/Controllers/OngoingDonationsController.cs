@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs.Donation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,7 +23,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(UserOngoingDonation userOngoingDonation)
+        public async Task<IActionResult> Insert([FromBody] OngoingDonationDto userOngoingDonation)
         {
             return Ok(await _ongoingDonationService.InsertUserDonation(userOngoingDonation));
         }
