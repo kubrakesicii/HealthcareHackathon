@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Core;
@@ -6,6 +7,7 @@ using Core.Results;
 using Core.Token;
 using DataAccess.Abstract;
 using DataAccess.UnitOfWork;
+using Entities.DTOs.Donation;
 using Entities.DTOs.User;
 using Microsoft.AspNetCore.Http;
 
@@ -15,13 +17,13 @@ namespace Business.Concrete
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITokenService _tokenService;
+        private readonly IAuthenticationService _authRepo;
 
-
-        public UserService(IUnitOfWork unitOfWork, ITokenService tokenService)
+        public UserService(IUnitOfWork unitOfWork, ITokenService tokenService, IAuthenticationService authRepo)
         {
             _unitOfWork = unitOfWork;
             _tokenService = tokenService;
-
+            _authRepo = authRepo;
         }
 
         public async Task<Result> RegisterUser(InsertUserDto insertUserDto)
@@ -29,6 +31,18 @@ namespace Business.Concrete
             // Kullanıcı eklendi ve ona ait raporlar eklendi
             var user = await _unitOfWork.Users.RegisterUser(insertUserDto);
             await _unitOfWork.Documents.InsertDocuments(user.Data.Id);
+            if(insertUserDto.Donations.Count() > 0)
+            {
+                foreach (var d in insertUserDto.Donations)
+                {
+                    await _unitOfWork.OngoingDonations.InsertUserDonation(new OngoingDonationDto
+                    {
+                        UserId = _authRepo.Id,
+                        DonationId = d
+                    });
+                }
+            }
+
 
             return new Result(true);
         }
@@ -53,9 +67,9 @@ namespace Business.Concrete
             return user;
         }
 
-        public async Task<DataResult<List<GetUserDto>>> GetAllUsers()
+        public async Task<DataResult<dynamic>> GetAllUsers()
         {
-            return await _unitOfWork.Users.GetAllUsers();
+            return await _unitOfWork.Users.GetAllUsers(_authRepo.Id);
         }
 
         public async Task<DataResult<List<GetUserDetailDto>>> GetAllUsersByFilter(FilterUserDto filterUser)

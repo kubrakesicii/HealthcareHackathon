@@ -59,6 +59,7 @@ namespace DataAccess.Concrete
                 Email = insertUserDto.Email,
                 Username = insertUserDto.Username,
                 Password = CryptoPassword(insertUserDto.Password),
+                Phone = insertUserDto.Phone,
                 ImagePath = imagePath,
                 Age = insertUserDto.Age,
                 Height = insertUserDto.Height,
@@ -79,6 +80,7 @@ namespace DataAccess.Concrete
                 Lastname = user.Lastname,
                 Email = user.Email,
                 Username = user.Username,
+                Phone = user.Phone,
                 ImagePath = user.ImagePath,
                 Age = user.Age,
                 Height = user.Height,
@@ -153,8 +155,6 @@ namespace DataAccess.Concrete
             //Tablo geldikten sonra searchkey verip arama yapabilir.
 
             var users = _context.Users.Where(x => x.IsActive == 1);
-            var role = 0;
-
 
             if (filterUser.RoleId != 0)
             {
@@ -217,23 +217,44 @@ namespace DataAccess.Concrete
             return new DataResult<List<GetUserDetailDto>>(filteredUsers, true);
         }
 
-        public async Task<DataResult<List<GetUserDto>>> GetAllUsers()
+        public async Task<DataResult<dynamic>> GetAllUsers(int userId)
         {
-            return new DataResult<List<GetUserDto>>(await _context.Users.Where(x => x.IsActive == 1).Select(x => new GetUserDto {
-                Id = x.Id,
-                Firstname = x.Firstname,
-                Lastname = x.Lastname,
-                Email = x.Email,
-                Username = x.Username,
-                ImagePath = x.ImagePath,
-                Age = x.Age,
-                Height = x.Height,
-                Weight = x.Weight,
-                Description = x.Description,
-                BloodType = x.BloodType,
-                RoleId = x.RoleId,
-                Address = x.Address,
-            }).ToListAsync(), true);
+            if(userId != 0)
+            {
+                var users = await _context.Users.Where(x => x.IsActive == 1).Select(x => new GetUserDto
+                {
+                    Id = x.Id,
+                    Firstname = x.Firstname,
+                    Lastname = x.Lastname,
+                    Email = x.Email,
+                    Username = x.Username,
+                    Phone = x.Phone,
+                    ImagePath = x.ImagePath,
+                    Age = x.Age,
+                    Height = x.Height,
+                    Weight = x.Weight,
+                    Description = x.Description,
+                    BloodType = x.BloodType,
+                    RoleId = x.RoleId,
+                    Address = x.Address,
+                }).ToListAsync();
+
+                return new DataResult<dynamic>(users, true);
+            }
+            else
+            {
+                var usersWithoutLogin = await _context.Users.Where(x => x.IsActive == 1).Select(x => new GetUserWithoutLoginDto
+                {
+                    Id = x.Id,
+                    Firstname = x.Firstname,
+                    Lastname = x.Lastname,
+                    Phone = x.Phone,                 
+                    BloodType = x.BloodType,
+                    RoleId = x.RoleId,
+                }).ToListAsync();
+
+                return new DataResult<dynamic>(usersWithoutLogin, true);
+            }
         }
 
         public async Task<Result> UpdateUser(int id, UpdateUserDto updateUserDto)

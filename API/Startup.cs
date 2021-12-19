@@ -1,11 +1,11 @@
 ﻿using API.Middlewares;
 using Business.Abstract;
 using Business.Concrete;
+using Business.Hubs;
 using Core.Token;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using DataAccess.Contexts;
-using DataAccess.Repositories;
 using DataAccess.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -109,6 +109,8 @@ namespace API
                 };
             });
 
+            // Provide Hub Connection
+            services.AddSignalR();
 
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -117,8 +119,10 @@ namespace API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IUserOngoingDonationService, UserOngoingDonationService>();
+            services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
 
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         }
 
@@ -160,10 +164,16 @@ namespace API
                subApp => subApp.UseFileHandlerMiddleware()
             );
 
+            app.UseWhen(
+                httpContext => (!httpContext.Request.Path.StartsWithSegments("/Users/Register")),
+                 subApp => subApp.UseAuthMiddleware()
+                );
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("/messageHub");
             });
         }
     }

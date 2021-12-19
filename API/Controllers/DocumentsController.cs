@@ -21,9 +21,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert([FromForm] InsertDocumentDto documents, [FromQuery, Required] int userId)
+        public async Task<IActionResult> Insert([FromForm] InsertDocumentDto documents)
         {
-            return Ok(await _documentService.InsertDocuments(userId));
+            return Ok(await _documentService.InsertDocuments());
         }
 
         [HttpGet]

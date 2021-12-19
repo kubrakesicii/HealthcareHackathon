@@ -27,7 +27,7 @@ namespace DataAccess.Contexts
             public DbSet<Country> Countries { get; set; }
             public DbSet<Badget> Badgets { get; set; }
             public DbSet<UserBadget> UserBadgets { get; set; }
-
+            public DbSet<Message> Messages { get; set; }
 
 
             protected override void OnConfiguring(DbContextOptionsBuilder options)

@@ -133,3 +133,5 @@ C:\Users\admin\Desktop\HealthcareHackathon\API\bin\Debug\net5.0\Humanizer.dll
 C:\Users\admin\Desktop\HealthcareHackathon\API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\admin\Desktop\HealthcareHackathon\API\obj\Debug\net5.0\API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\admin\Desktop\HealthcareHackathon\API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\admin\Desktop\HealthcareHackathon\API\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\admin\Desktop\HealthcareHackathon\API\bin\Debug\net5.0\System.Net.WebSockets.WebSocketProtocol.dll

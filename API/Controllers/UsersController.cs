@@ -32,7 +32,6 @@ namespace API.Controllers
         }
 
         [HttpPost("Login")]
-        [Produces("application/json")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             return Ok(await _userService.Login(loginDto));

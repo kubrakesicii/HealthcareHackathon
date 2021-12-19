@@ -13,7 +13,7 @@ namespace DataAccess.UnitOfWork
         IDocumentRepository Documents { get; }
         IUserOngoingDonationRepository OngoingDonations { get; }
         IUserCompletedDonationRepository CompletedDonations { get; }
-
+        IMessageRepository Messages { get; }
         bool SaveChanges();
     }
 }

@@ -11,6 +11,7 @@ namespace Entities.DTOs.User
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Phone { get; set; }
         public int Age { get; set; }
         public decimal Weight { get; set; }
         public int Height { get; set; }
@@ -25,6 +26,7 @@ namespace Entities.DTOs.User
 
         public int DistrictId { get; set; }
 
+        public List<int> Donations { get; set; }
         public IFormFile Image { get; set; }
         public List<IFormFile> Documents { get; set; }
     }

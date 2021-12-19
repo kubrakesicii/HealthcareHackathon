@@ -8,7 +8,7 @@ namespace Business.Abstract
 {
     public interface IDocumentService
     {
-        Task<Result> InsertDocuments(int userId);
+        Task<Result> InsertDocuments();
         Task<DataResult<List<GetDocumentDto>>> GetUserDocuments(int userId);
         Task<Result> DeleteDocument(int id);
     }

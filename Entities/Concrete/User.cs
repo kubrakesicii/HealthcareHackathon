@@ -9,6 +9,7 @@ namespace Entities.Concrete
         public string Email { get; set; }
         public string Username { get; set; }
         public byte[] Password { get; set; }
+        public string Phone { get; set; }
         public int Age { get; set; }
         public decimal Weight { get; set; }
         public int Height { get; set; }

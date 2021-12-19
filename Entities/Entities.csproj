@@ -13,7 +13,6 @@
     <None Remove="DTOs\Filter\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Concrete\" />
     <Folder Include="DTOs\Document\" />
     <Folder Include="DTOs\Filter\" />
   </ItemGroup>

@@ -20,6 +20,7 @@ namespace DataAccess.UnitOfWork
         private readonly IDocumentRepository _documentRepository;
         private readonly IUserOngoingDonationRepository _ongoingDonationRepository;
         private readonly IUserCompletedDonationRepository _completedDonationRepository;
+        private readonly IMessageRepository _messageRepository;
 
         public UnitOfWork(HealthcareContext context, IHttpContextAccessor httpContextAccessor, IAuthenticationRepository authRepo)
         {
@@ -35,6 +36,8 @@ namespace DataAccess.UnitOfWork
         public IUserOngoingDonationRepository OngoingDonations => _ongoingDonationRepository ?? new UserOngoingDonationRepository(_context);
 
         public IUserCompletedDonationRepository CompletedDonations => _completedDonationRepository ?? new UserCompletedDonationRepository(_context, _authRepo);
+
+        public IMessageRepository Messages => _messageRepository ?? new MessageRepository(_context);
 
         public async ValueTask DisposeAsync()
         {

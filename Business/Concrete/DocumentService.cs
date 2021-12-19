@@ -14,16 +14,18 @@ namespace Business.Concrete
     public class DocumentService : IDocumentService
     {
         public IUnitOfWork _unitOfWork;
+        private readonly IAuthenticationService _authService;
 
-        public DocumentService(IUnitOfWork unitOfWork)
+        public DocumentService(IUnitOfWork unitOfWork, IAuthenticationService authService)
         {
             _unitOfWork = unitOfWork;
+            _authService = authService;
         }
 
-        public async Task<Result> InsertDocuments(int userId)
+        public async Task<Result> InsertDocuments()
         {
             // Aynı anda bir veya daha fazla document eklenebilir. Raporlar kisiye baglı eklenir
-            return await _unitOfWork.Documents.InsertDocuments(userId);
+            return await _unitOfWork.Documents.InsertDocuments(_authService.Id);
         }
 
         public async Task<DataResult<List<GetDocumentDto>>> GetUserDocuments(int userId)
