@@ -1,7 +1,5 @@
-
-
-Makefile.in
-
+bin/
+obj/
 *.userprefs
 
 *.usertasks
