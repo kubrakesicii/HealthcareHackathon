@@ -67,5 +67,10 @@ namespace Business.Concrete
         {
             return await _unitOfWork.Users.UpdateUser(id, updateUserDto);
         }
+
+        public async Task<DataResult<GetUserDto>> GetUser(int id)
+        {
+            return await _unitOfWork.Users.GetUser(id);
+        }
     }
 }

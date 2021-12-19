@@ -117,6 +117,7 @@ namespace API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IUserOngoingDonationService, UserOngoingDonationService>();
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
 
 
         }
@@ -154,7 +155,7 @@ namespace API
 
             // File Middleware
             app.UseWhen(
-               httpContext => (httpContext.Request.Path.StartsWithSegments("/Users") || httpContext.Request.Method.Equals("POST")
+               httpContext => (httpContext.Request.Path.StartsWithSegments("/Users/Register") && httpContext.Request.Method.Equals("POST")
                ),
                subApp => subApp.UseFileHandlerMiddleware()
             );

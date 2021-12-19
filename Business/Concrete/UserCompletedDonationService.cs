@@ -11,12 +11,10 @@ namespace Business.Concrete
     public class UserCompletedDonationService : IUserCompletedDonationService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IAuthenticationService _authService;
 
-        public UserCompletedDonationService(IUnitOfWork unitOfWork, IAuthenticationService authService)
+        public UserCompletedDonationService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _authService = authService;
         }
     }
 }

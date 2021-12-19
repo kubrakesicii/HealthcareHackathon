@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Enums;
 using Core.Exceptions;
 using Core.Results;
 using Core.Token;
@@ -14,6 +15,7 @@ using DataAccess.Repositories;
 using Entities.Concrete;
 using Entities.DTOs.User;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete
@@ -91,7 +93,7 @@ namespace DataAccess.Concrete
 
         public async Task<DataResult<GetLoginDto>> Login(LoginDto loginDto)
         {
-            var user = await GetAsync(x => x.Username == loginDto.Username);
+            var user = await GetAsync(x => x.Email == loginDto.Email);
             if(user == null)
             {
                 return new ErrorDataResult<GetLoginDto>("USER NOT FOUND");
@@ -151,10 +153,13 @@ namespace DataAccess.Concrete
             //Tablo geldikten sonra searchkey verip arama yapabilir.
 
             var users = _context.Users.Where(x => x.IsActive == 1);
+            var role = 0;
 
-            if(filterUser.RoleId != 0)
+
+            if (filterUser.RoleId != 0)
             {
                 users = users.Where(x => x.RoleId == filterUser.RoleId);
+               
             }
 
             if(filterUser.AgeFilter != null)
@@ -191,13 +196,9 @@ namespace DataAccess.Concrete
                         ? filterUser.Donations.Split(";").Select(n => Convert.ToInt32(n)).ToArray()
                         : new int[1] { Convert.ToInt32(filterUser.Donations) };
 
-                    foreach (var d in searchDonations)
-                    {
-                        //donationCond = donationCond.Or(x => x.DonationId == d);
-                    }
-
-                    var donations = await _context.UserOngoingDonations.Where(donationCond).Select(x => x.UserId).Distinct().ToListAsync();
-                    filteredIds.AddRange(donations);
+                    var userDons = await _context.UserOngoingDonations.Where(x => x.IsActive == 1 && x.UserId == u).Select(x => x.DonationId).ToListAsync();
+                    if (searchDonations.Any(x => userDons.Contains(x)))
+                        filteredIds.Add(u);
                 }
             }
             else
@@ -261,6 +262,26 @@ namespace DataAccess.Concrete
             await UpdateAsync(user);
 
             return new Result(true);
+        }
+
+        public async Task<DataResult<GetUserDto>> GetUser(int id)
+        {
+            return new DataResult<GetUserDto>(await _context.Users.Where(x => x.Id == id).Select(x => new GetUserDto
+            {
+                Id = x.Id,
+                Firstname = x.Firstname,
+                Lastname = x.Lastname,
+                Email = x.Email,
+                Username = x.Username,
+                ImagePath = x.ImagePath,
+                Age = x.Age,
+                Height = x.Height,
+                Weight = x.Weight,
+                Description = x.Description,
+                BloodType = x.BloodType,
+                RoleId = x.RoleId,
+                Address = x.Address,
+            }).FirstOrDefaultAsync(), true);
         }
     }
 }

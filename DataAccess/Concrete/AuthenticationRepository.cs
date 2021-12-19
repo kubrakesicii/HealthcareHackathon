@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
-using Business.Abstract;
+using DataAccess.Abstract;
 using DataAccess.Contexts;
 using Microsoft.AspNetCore.Http;
 
-namespace Business.Concrete
+namespace DataAccess.Concrete
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationRepository : IAuthenticationRepository
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HealthcareContext _context;
 
-        public AuthenticationService(IHttpContextAccessor httpContextAccessor, HealthcareContext context)
+        public AuthenticationRepository(IHttpContextAccessor httpContextAccessor, HealthcareContext context)
         {
             _httpContextAccessor = httpContextAccessor;
             _context = context;

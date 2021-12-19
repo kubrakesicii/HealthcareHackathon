@@ -15,15 +15,17 @@ namespace DataAccess.UnitOfWork
 
         private readonly HealthcareContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuthenticationRepository _authRepo;
         private readonly IUserRepository _userRepository;
         private readonly IDocumentRepository _documentRepository;
         private readonly IUserOngoingDonationRepository _ongoingDonationRepository;
         private readonly IUserCompletedDonationRepository _completedDonationRepository;
 
-        public UnitOfWork(HealthcareContext context, IHttpContextAccessor httpContextAccessor)
+        public UnitOfWork(HealthcareContext context, IHttpContextAccessor httpContextAccessor, IAuthenticationRepository authRepo)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _authRepo = authRepo;
         }
 
         public IUserRepository Users => _userRepository ?? new UserRepository(_context, _httpContextAccessor);
@@ -32,7 +34,7 @@ namespace DataAccess.UnitOfWork
 
         public IUserOngoingDonationRepository OngoingDonations => _ongoingDonationRepository ?? new UserOngoingDonationRepository(_context);
 
-        public IUserCompletedDonationRepository CompletedDonations => _completedDonationRepository ?? new UserCompletedDonationRepository(_context);
+        public IUserCompletedDonationRepository CompletedDonations => _completedDonationRepository ?? new UserCompletedDonationRepository(_context, _authRepo);
 
         public async ValueTask DisposeAsync()
         {

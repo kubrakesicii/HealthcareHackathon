@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Entities.DTOs.User
 {
-    public class GetUserDto
+    public class GetUserDto : IGetUser
     {
         public int Id { get; set; }
         public string Firstname { get; set; }
